@@ -90,13 +90,16 @@
 						class="toggle toggle-warning"
 						checked={speed}
 						on:change={() => (speed = !speed)}
+						disabled={selectedMIT === 0}
 					/>
 				</label>
 			</div>
 		{/if}
 		{#if !holding && !tbfm}
 			<div class="card-actions justify-end">
-				<button class="btn btn-error" on:click={handleHoldSelect}>HOLD</button>
+				<button class="btn btn-error" on:click={handleHoldSelect} disabled={selectedMIT === 0}
+					>HOLD</button
+				>
 				<button class="btn btn-info" on:click={handleTbfmSelect}>TBFM</button>
 			</div>
 		{:else if holding}
