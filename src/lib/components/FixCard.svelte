@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { calculatedRate } from '$lib/stores/calculated-rate';
+
 	export let speed = false;
 	export let fixName = 'Fix Name';
 	export let selectedMIT = 5;
@@ -6,9 +8,11 @@
 	export let tbfm = false;
 
 	let cardAccents = '';
+	let rate = 0;
+	let previousRate = 0;
 
 	const mitSelections = [0, 5, 7, 10, 15, 20, 25, 30, 40];
-	const calculatedRate = (selectedMIT: number, isSpeedSelected: boolean = speed) => {
+	const calculateRate = (selectedMIT: number, isSpeedSelected: boolean = speed) => {
 		let rate = 0;
 		switch (true) {
 			case selectedMIT === 0:
@@ -40,14 +44,6 @@
 		}
 		return rate;
 	};
-	$: rate = calculatedRate(selectedMIT, speed);
-	$: if (holding) {
-		cardAccents = 'card-bordered border-error shadow-error';
-	} else if (tbfm) {
-		cardAccents = 'card-bordered border-info shadow-info';
-	} else {
-		cardAccents = '';
-	}
 
 	const handleHoldSelect = () => {
 		holding = !holding;
@@ -59,6 +55,19 @@
 		holding = false;
 		selectedMIT = 7;
 	};
+
+	$: {
+		previousRate = rate;
+		rate = calculateRate(selectedMIT, speed);
+	}
+	$: if (holding) {
+		cardAccents = 'card-bordered border-error shadow-error';
+	} else if (tbfm) {
+		cardAccents = 'card-bordered border-info shadow-info';
+	} else {
+		cardAccents = '';
+	}
+	$: calculatedRate.update((n) => n + rate - previousRate);
 </script>
 
 <div class="card shadow-xl w-64 {cardAccents}">
