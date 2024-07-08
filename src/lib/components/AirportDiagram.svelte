@@ -24,7 +24,7 @@
 				<!-- Create a polygon for each ring -->
 				<polygon
 					points={ring.map((point) => `${xScale(point[0])},${yScale(point[1])}`).join(' ')}
-					fill="white"
+					fill="fill-secondary"
 					opacity="0.5"
 				/>
 			{/each}
