@@ -1,16 +1,19 @@
 <script lang="ts">
 	import type { FaaRunwayResponse } from '$lib/apiTypes';
-	import AirportDiagram from '$lib/components/AirportDiagram.svelte';
+	import FixCard from '$lib/components/FixCard.svelte';
+	//import AirportDiagram from '$lib/components/AirportDiagram.svelte';
+	import LoadingCards from '$lib/components/LoadingCards.svelte';
 	import { onMount } from 'svelte';
 
 	export let data;
 
-	let width = 400;
-	let height = 400;
-	let margin = { top: 10, right: 10, bottom: 10, left: 10 };
+	// let width = 100;
+	// let height = 100;
+	// let margin = { top: 10, right: 10, bottom: 10, left: 10 };
 	let runwayData: FaaRunwayResponse | null = null;
 	let airport = 'atl';
-	let selectedAirport = '';
+	// let selectedAirport = 'ATL';
+	let checked = false;
 
 	// Function to fetch airport data
 	async function getAirportData(airport: string) {
@@ -18,17 +21,21 @@
 		const runwayDataJson: FaaRunwayResponse = await runwayData.json();
 		return runwayDataJson;
 	}
-	async function handleAirportChange() {
-		if (selectedAirport) {
-			console.log(selectedAirport);
-			runwayData = await getAirportData(selectedAirport);
-		} else {
-			runwayData = null;
-		}
-	}
+	// async function handleAirportChange() {
+	// 	if (selectedAirport) {
+	// 		console.log(selectedAirport);
+	// 		runwayData = await getAirportData(selectedAirport);
+	// 	} else {
+	// 		runwayData = null;
+	// 	}
+	// }
+
+	onMount(async () => {
+		runwayData = await getAirportData(airport);
+	});
 </script>
 
-{#await data.props.airports}
+<!-- {#await data.props.airports}
 	<p>Loading...</p>
 {:then airports}
 	<select
@@ -41,9 +48,7 @@
 			<option value={airport.ident}>{airport.ident}</option>
 		{/each}
 	</select>
-{/await}
-{#if runwayData}
-	<div id={`${airport}-diagram`}>
-		<AirportDiagram {width} {height} {margin} {runwayData} />
-	</div>
-{/if}
+{/await} -->
+
+<LoadingCards />
+<FixCard />
