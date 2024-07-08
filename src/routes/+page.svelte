@@ -3,6 +3,7 @@
 	import AirportDiagram from '$lib/components/AirportDiagram.svelte';
 	import FixCard from '$lib/components/FixCard.svelte';
 	import { onMount } from 'svelte';
+	import { calculatedRate } from '$lib/stores/calculated-rate.js';
 
 	export let data;
 
@@ -88,6 +89,7 @@
 			<div class="card-body items-center text-center">
 				<h2 class="card-title">{airport.toUpperCase()}</h2>
 				<AirportDiagram {height} {width} {margin} {runwayData} />
+				<p>Calculated Rate: {$calculatedRate}</p>
 			</div>
 		</div>
 	</div>
